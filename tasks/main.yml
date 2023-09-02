@@ -1,2 +1,46 @@
----
-# tasks file for NodeExporter
+- name: Download Node Exporter binary
+  get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v0.18.1/node_exporter-0.18.1.linux-amd64.tar.gz
+    dest: /tmp/node_exporter-0.18.1.linux-amd64.tar.gz
+
+- name: Extract Node Exporter binary
+  ansible.builtin.unarchive:
+    src: /tmp/node_exporter-0.18.1.linux-amd64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+  become: true
+  become_user: root
+
+- name: Create node_exporter user
+  ansible.builtin.user:
+    name: node_exporter
+    system: yes
+    shell: /bin/false
+  become: true
+  become_user: root
+
+- name: Set ownership of Node Exporter binary
+  ansible.builtin.file:
+    path: /usr/local/bin/node_exporter
+    owner: node_exporter
+    group: node_exporter
+  become: true
+  become_user: root
+
+- name: Copy Node Exporter systemd service file
+  ansible.builtin.template:
+    src: node_exporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+  become: true
+  become_user: root
+  notify:
+  - Reload systemd
+
+- name: Enable Node Exporter systemd service
+  ansible.builtin.service:
+    name: node_exporter
+    enabled: yes
+    state: started
+  become: true
+  become_user: root
+

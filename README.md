@@ -4,6 +4,15 @@
 
 # Node exporter : installation binaire
 
+
+Download Node Exporter binary from the specified URL.
+Extract the downloaded binary to /usr/local/bin.
+Create a system user called node_exporter with the /bin/false shell.
+Set ownership of the Node Exporter binary to the node_exporter user and group.
+Copy the systemd service template to the /etc/systemd/system directory.
+Notify the systemd handler to reload systemd configuration after copying the service file.
+Enable and start the Node Exporter systemd service.
+
 * preparation 
 
 ```
