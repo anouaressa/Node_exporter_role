@@ -1,3 +1,29 @@
+# Ansibel role for anstaling node exporte 
+
+## Set up Ansible:  
+
+Make sure you have Ansible installed on the machine from which you'll run the playbook. 
+
+# reate an Ansible Inventory:
+
+Create an Ansible inventory file (e.g., inventory.ini). The inventory file defines the hosts on which you want to install Node Exporter. For each host, specify the SSH user and IP address. If you have 
+
+multiple hosts, list them under different groups.
+
+[nodes]
+your_target_host ansible_ssh_user=your_ssh_user ansible_ssh_host=your_target_ip
+
+# clone the role 
+
+# write a simple playbook and use the role
+
+---
+- name: Install Prometheus Node Exporter
+  hosts: nodes
+  become: yes
+  roles:
+    - Node_exporter_role
+
 # The steps for instaling node exporte:
 
 # Node exporter : installation binaire
